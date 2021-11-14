@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Exemplo Preview Modelo 3D</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+    <script src="js/xeogl.js"></script>
+    <script src="js/models/OBJModel.js"></script>
+
+    <link href="css/styles.css" rel="stylesheet"/>
+
+    <style>
+        body {
+            background-image: url();
+            background-size: 100%;
+            background-repeat: repeat;
+        }
+
+        canvas {
+            position:absolute;
+            width:100%;
+            height:100%;
+        }
+    </style>
+
+<body>
+
+<div id="info">
+
+</div>
+
+<div id="background">
+<canvas id="myCanvas" ></canvas>
+</div>
+<script>
+    var scene = new xeogl.Scene({
+        canvas: "myCanvas",
+        transparent: true
+    });
+
+    xeogl.setDefaultScene(scene);
+
+    var portaModel = new xeogl.OBJModel({
+        id: "portaModel",
+        src: "models/porta.obj",
+        position: [-50, 0, -60]   
+    });
+
+
+    portaModel.on("loaded", function () {
+            var cameraFlight = new xeogl.CameraFlightAnimation();
+            cameraFlight.flyTo(portaModel.scene);
+    });
+
+    // Enable camera interaction
+    var camera = scene.camera;
+    
+    scene.on("tick", function () { // Slowly orbit the camera
+        camera.orbitYaw(-0.1);
+    });
+
+    new xeogl.CameraControl();
+</script>
+</body>
+</html>
